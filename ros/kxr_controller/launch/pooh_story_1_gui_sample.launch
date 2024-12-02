@@ -1,0 +1,8 @@
+<launch>
+  <node name="$(anon pooh_story_1_buttons)"
+        pkg="jsk_rqt_plugins" type="rqt_service_buttons" output="screen" clear_params="true">
+    <param name="~layout_yaml_file" value="package://kxr_controller/button_config/pooh_story_1_service_button_layout.yaml" />
+  </node>
+  <node name="pooh_story_1_service_buttons" pkg="kxr_controller" type="pooh_story_1_service_buttons.py"
+        output="screen"/>
+</launch>
