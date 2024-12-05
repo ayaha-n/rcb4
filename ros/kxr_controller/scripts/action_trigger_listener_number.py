@@ -111,7 +111,8 @@ def action_callback(msg):
     if action in action_motion_pair:
         perform_action(*action_motion_pair.get(action), sound_data)
     else:
-        rospy.loginfo("No action defined for story={}, section={}, trigger={}.wav".format(story, section, trigger))
+        perform_action("", "", "", sound_data)
+        rospy.loginfo("No action defined for story={}, section={}, trigger={}.wav, so only play sound".format(story, section, trigger))
 
 # story とsection を設定
 def reconfigure_callback(config, level):
