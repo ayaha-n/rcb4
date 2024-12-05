@@ -111,7 +111,7 @@ def right_hand_up(send_time=1):
 def left_hand_chin():
     global speak_flag
     controller_type='larm_controller'
-    ri.angle_vector([-0.08423378,  0.02179497, -0.00235602, -0.24209882,  0.02238402,0.02474022,  0.31808645,  0.88062793, -1.9085175 ], 2, controller_type=controller_type)
+    ri.angle_vector([-0.01119175,  0.02768546,  0.01354829, -1.1751518 ,  0.9943143 ,-1.272934  ,  0.30100402,  0.88062793, -1.7559538 ], 2, controller_type=controller_type)
     ri.wait_interpolation()
     rate = rospy.Rate(10)
     rospy.sleep(2.0)
@@ -258,3 +258,4 @@ if __name__ == '__main__':
 
 
 
+\
