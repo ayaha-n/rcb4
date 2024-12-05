@@ -51,8 +51,8 @@ action_motion_pair = {
     (1, 4, 3): (Eyebrows.EMPTY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
     (1, 5, 1): (Eyebrows.EMPTY, Necks.NOD, Arms.EMPTY),
     (1, 5, 2): (Eyebrows.SURPRISED, Necks.EMPTY, Arms.LEFT_HAND_CHIN),
-    (2, 1, 1): (Eyebrows.NORMAL, Necks.TILT, Arms.EMPTY),
-    (2, 1, 2): (Eyebrows.HAPPY, Necks.EMPTY, Arms.BANZAI),
+    (2, 1, 1): (Eyebrows.NORMAL, Necks.TILT, Arms.LEFT_HAND_CHIN),
+    (2, 1, 3): (Eyebrows.HAPPY, Necks.EMPTY, Arms.BANZAI),
     (2, 2, 1): (Eyebrows.EMPTY, Necks.NOD, Arms.EMPTY),
     (2, 2, 3): (Eyebrows.ANGRY, Necks.DISAGREE, Arms.EMPTY),
     (2, 3, 1): (Eyebrows.SAD, Necks.EMPTY, Arms.EMPTY),
@@ -111,7 +111,8 @@ def action_callback(msg):
     if action in action_motion_pair:
         perform_action(*action_motion_pair.get(action), sound_data)
     else:
-        rospy.loginfo("No action defined for story={}, section={}, trigger={}.wav".format(story, section, trigger))
+        perform_action("", "", "", sound_data)
+        rospy.loginfo("No action defined for story={}, section={}, trigger={}.wav, so only play sound".format(story, section, trigger))
 
 # story とsection を設定
 def reconfigure_callback(config, level):
