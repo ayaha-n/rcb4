@@ -8,13 +8,87 @@ from pathlib import Path  # pathlibをインポート
 from dynamic_reconfigure.server import Server
 from kxr_controller.cfg import PoohScenarioConfig
 
+class Eyebrows(object):
+    EMPTY = ""
+    HAPPY = "happy"
+    SAD = "sad"
+    NORMAL = "normal"
+    SURPRISED = "surprised"
+    ANGRY = "angry"
+
+class Necks(object):
+    EMPTY = ""
+    TILT = "tilt"
+    NOD = "nod"
+    DISAGREE = "disagree"
+
+class Arms(object):
+    EMPTY = ""
+    RIGHT_HAND_UP = "right_hand_up"
+    LEFT_HAND_CHIN = "left_hand_chin"
+    RIGHT_HAND_MOUTH = "right_hand_mouth"
+    CROSS_ARMS = "cross_arms"
+    BANZAI = "banzai"
+    ONEGAI = "onegai"
+    LEFT_HAND_POINT = "left_hand_point"
+    BYE = "bye"
+
+action_motion_pair = {
+    (0, 1, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
+    (0, 1, 2): (Eyebrows.EMPTY, Necks.NOD, Arms.EMPTY),
+    (0, 2, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
+    (0, 2, 3): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
+    (0, 2, 4): (Eyebrows.ANGRY, Necks.EMPTY, Arms.EMPTY),
+    (1, 1, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
+    (1, 1, 3): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
+    (1, 1, 4): (Eyebrows.ANGRY, Necks.EMPTY, Arms.EMPTY),
+    (1, 2, 1): (Eyebrows.SAD, Necks.TILT, Arms.LEFT_HAND_CHIN),
+    (1, 2, 2): (Eyebrows.NORMAL, Necks.NOD, Arms.EMPTY),
+    (1, 3, 1): (Eyebrows.EMPTY, Necks.TILT, Arms.LEFT_HAND_CHIN),
+    (1, 3, 2): (Eyebrows.SAD, Necks.EMPTY, Arms.EMPTY),
+    (1, 3, 3): (Eyebrows.HAPPY, Necks.EMPTY, Arms.EMPTY),
+    (1, 4, 1): (Eyebrows.EMPTY, Necks.TILT, Arms.EMPTY),
+    (1, 4, 3): (Eyebrows.EMPTY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
+    (1, 5, 1): (Eyebrows.EMPTY, Necks.NOD, Arms.EMPTY),
+    (1, 5, 2): (Eyebrows.SURPRISED, Necks.EMPTY, Arms.LEFT_HAND_CHIN),
+    (2, 1, 1): (Eyebrows.NORMAL, Necks.TILT, Arms.EMPTY),
+    (2, 1, 2): (Eyebrows.HAPPY, Necks.EMPTY, Arms.BANZAI),
+    (2, 2, 1): (Eyebrows.EMPTY, Necks.NOD, Arms.EMPTY),
+    (2, 2, 3): (Eyebrows.ANGRY, Necks.DISAGREE, Arms.EMPTY),
+    (2, 3, 1): (Eyebrows.SAD, Necks.EMPTY, Arms.EMPTY),
+    (2, 3, 2): (Eyebrows.EMPTY, Necks.EMPTY, Arms.LEFT_HAND_CHIN),
+    (2, 3, 3): (Eyebrows.EMPTY, Necks.NOD, Arms.EMPTY),
+    (2, 4, 2): (Eyebrows.EMPTY, Necks.EMPTY, Arms.LEFT_HAND_CHIN),
+    (2, 4, 3): (Eyebrows.EMPTY, Necks.TILT, Arms.EMPTY),
+    (2, 5, 2): (Eyebrows.SURPRISED, Necks.TILT, Arms.EMPTY),
+    (2, 5, 3): (Eyebrows.SAD, Necks.NOD, Arms.EMPTY),
+    (3, 1, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
+    (3, 1, 2): (Eyebrows.NORMAL, Necks.EMPTY, Arms.LEFT_HAND_POINT),
+    (3, 2, 1): (Eyebrows.SAD, Necks.EMPTY, Arms.EMPTY),
+    (3, 2, 3): (Eyebrows.NORMAL, Necks.NOD, Arms.EMPTY),
+    (3, 3, 1): (Eyebrows.SURPRISED, Necks.EMPTY, Arms.LEFT_HAND_POINT),
+    (3, 3, 3): (Eyebrows.NORMAL, Necks.DISAGREE, Arms.EMPTY),
+    (3, 4, 1): (Eyebrows.EMPTY, Necks.TILT, Arms.EMPTY),
+    (3, 4, 2): (Eyebrows.EMPTY, Necks.EMPTY, Arms.LEFT_HAND_CHIN),
+    (3, 5, 1): (Eyebrows.SURPRISED, Necks.EMPTY, Arms.ONEGAI),
+    (3, 5, 3): (Eyebrows.HAPPY, Necks.EMPTY, Arms.EMPTY),
+    (4, 1, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_UP),
+    (4, 1, 2): (Eyebrows.EMPTY, Necks.NOD, Arms.EMPTY),
+    (4, 2, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
+    (4, 2, 2): (Eyebrows.NORMAL, Necks.EMPTY, Arms.LEFT_HAND_POINT),
+    (5, 1, 1): (Eyebrows.HAPPY, Necks.NOD, Arms.EMPTY),
+    (5, 2, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.BYE),
+}
+
 # 動作を実行する関数
-def perform_action(neck_motion_message, eyebrow_status_message, sound_path):
+def perform_action(eyebrow_status_message, neck_motion_message, arm_motion_message, sound_path):
     # 首と眉の動きのパブリッシュ
     neck_motion_pub.publish(neck_motion_message)
     eyebrow_status_pub.publish(eyebrow_status_message)
+    arm_motion_pub.publish(arm_motion_message)
     rospy.loginfo("Published '{}' to /neck_motion".format(neck_motion_message))
     rospy.loginfo("Published '{}' to /eyebrow_status".format(eyebrow_status_message))
+    rospy.loginfo("Published '{}' to /arm_motion".format(arm_motion_message))
 
     # サウンド再生
     try:
@@ -30,16 +104,13 @@ def action_callback(msg):
     trigger = msg.data  # UInt16の値を取得
     rospy.loginfo("Received trigger: {}".format(trigger))
 
-    sound_data = "package://kxr_controller/resources/pooh_voice/wav/{}_{}_{}.wav".format(story, section, trigger)
+    action = (story, section, trigger)
 
-    # 条件に基づく動作
-    if story == 1 and section == 1 and trigger == 1:
-        perform_action("disagree", "angry", sound_data)
-    elif story == 2 and section == 3 and trigger == 4:
-        perform_action("tilt", "sad", sound_data)
-    elif story == 1 and section == 2 and trigger == 2:
-        perform_action("tilt", "sad", sound_data)
-    else:        
+    sound_data = "package://kxr_controller/resources/pooh_voice/wav/{}_{}_{}.wav".format(*action)
+
+    if action in action_motion_pair:
+        perform_action(*action_motion_pair.get(action), sound_data)
+    else:
         rospy.loginfo("No action defined for story={}, section={}, trigger={}.wav".format(story, section, trigger))
 
 # story とsection を設定
@@ -60,9 +131,10 @@ def main():
                                 reconfigure_callback)
 
     # パブリッシャーの設定
-    global neck_motion_pub, eyebrow_status_pub
+    global neck_motion_pub, eyebrow_status_pub, arm_motion_pub
     neck_motion_pub = rospy.Publisher('/neck_motion', String, queue_size=1)
     eyebrow_status_pub = rospy.Publisher('/eyebrow_status', String, queue_size=1)
+    arm_motion_pub = rospy.Publisher('/arm_motion', String, queue_size=1)
 
     # サブスクライバーの設定
     rospy.Subscriber('/action_trigger', UInt16, action_callback)
