@@ -4,7 +4,7 @@
 import argparse
 
 import IPython
-from kxr_controller.kxr_interface import KXRROSRobotInterface
+from kxr_controller.pooh_interface import PoohROSRobotInterface
 from kxr_models.download_urdf import download_urdf_mesh_files
 import numpy as np  # NOQA
 import rospy
@@ -29,7 +29,7 @@ def main():
     robot_model.load_urdf_from_robot_description(
         args.namespace + "/robot_description_viz"
     )
-    ri = KXRROSRobotInterface(  # NOQA
+    ri = PoohROSRobotInterface(  # NOQA
         robot_model, namespace=args.namespace, controller_timeout=60.0
     )
 
