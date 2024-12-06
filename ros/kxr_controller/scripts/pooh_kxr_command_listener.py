@@ -83,7 +83,7 @@ def tilt(send_time=1):
     controller_type = 'head_controller'
     #ri.angle_vector(robot_model.init_pose(),
     #                controller_type=controller_type)
-    robot_model.head_neck_r.joint_angle(np.deg2rad(30))
+    robot_model.head_neck_r.joint_angle(np.deg2rad(20))
     ri.angle_vector(robot_model.angle_vector(), send_time,
                     controller_type=controller_type)
     ri.wait_interpolation()
@@ -257,5 +257,3 @@ if __name__ == '__main__':
         pass
 
 
-
-\
