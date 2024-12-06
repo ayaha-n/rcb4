@@ -10,11 +10,11 @@
   <node name="joint_state_to_arduino"
         pkg="kxr_controller"
         type="serial_joint_control.py" />
-  <node name="$(anon controller_spawner)"
-        pkg="controller_manager" type="spawner"
-        respawn="true" respawn_delay="5"
-        args="head_controller rarm_controller larm_controller"
-        output="screen" />
+  <rosparam param="default_controller">
+    - head_controller
+    - rarm_controller
+    - larm_controller
+  </rosparam>
   <rosparam file="$(find kxr_controller)/config/pooh_controllers.yaml" />
 
   <!-- story（どのストーリーか), section（何番目の話者か), trigger(何番目のセリフか)に応じて音声・眉(/eyebrow_status)・体（今は首だけ, /neck_motion）の動きを出す -->
