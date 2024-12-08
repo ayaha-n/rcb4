@@ -58,14 +58,15 @@ action_motion_pair = {
     (2, 3, 1): (Eyebrows.SAD, Necks.EMPTY, Arms.EMPTY),
     (2, 3, 2): (Eyebrows.EMPTY, Necks.EMPTY, Arms.LEFT_HAND_CHIN),
     (2, 3, 3): (Eyebrows.EMPTY, Necks.NOD, Arms.EMPTY),
-    (2, 4, 1): (Eyebrows.SAD, Necks.EMPTY, Arms.EMPTY)
+    (2, 4, 1): (Eyebrows.SAD, Necks.EMPTY, Arms.EMPTY),
     (2, 4, 2): (Eyebrows.EMPTY, Necks.EMPTY, Arms.LEFT_HAND_CHIN),
     (2, 4, 3): (Eyebrows.EMPTY, Necks.TILT, Arms.EMPTY),
-    (2, 5, 1): (Eyebrows.SAD, Necks.EMPTY, Arms.EMPTY)
+    (2, 5, 1): (Eyebrows.SAD, Necks.EMPTY, Arms.EMPTY),
     (2, 5, 2): (Eyebrows.SURPRISED, Necks.TILT, Arms.EMPTY),
     (2, 5, 3): (Eyebrows.SAD, Necks.NOD, Arms.EMPTY),
     (3, 1, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
-    (3, 1, 2): (Eyebrows.NORMAL, Necks.EMPTY, Arms.LEFT_HAND_POINT),
+    (3, 1, 2): (Eyebrows.NORMAL, Necks.TILT, Arms.EMPTY),
+    (3, 1, 3): (Eyebrows.EMPTY, Necks.NOD, Arms.EMPTY),
     (3, 2, 1): (Eyebrows.SAD, Necks.EMPTY, Arms.EMPTY),
     (3, 2, 3): (Eyebrows.NORMAL, Necks.NOD, Arms.EMPTY),
     (3, 3, 1): (Eyebrows.SURPRISED, Necks.EMPTY, Arms.LEFT_HAND_POINT),
@@ -76,7 +77,7 @@ action_motion_pair = {
     (3, 5, 3): (Eyebrows.HAPPY, Necks.EMPTY, Arms.EMPTY),
     (4, 1, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_UP),
     (4, 1, 2): (Eyebrows.EMPTY, Necks.NOD, Arms.EMPTY),
-    (4, 1, 3): (Eyebrows.EMPTY, Necks.EMPTY, Arms.ONEGAI)
+    (4, 1, 3): (Eyebrows.EMPTY, Necks.EMPTY, Arms.LEFT_HAND_CHIN),
     (5, 1, 1): (Eyebrows.HAPPY, Necks.NOD, Arms.EMPTY),
     (5, 2, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_BYE),
     (6, 1, 1): (Eyebrows.HAPPY, Necks.NOD, Arms.EMPTY),
@@ -116,13 +117,13 @@ def action_callback(msg):
     elif trigger == 10:
         perform_action("normal", "", "onegai", 'package://kxr_controller/resources/pooh_voice/wav/wait.wav')
     elif trigger == 11:
-	perform_action("sad", "", "", 'package://kxr_controller/resources/pooh_voice/wav/hurt.wav')
+        perform_action("sad", "", "", 'package://kxr_controller/resources/pooh_voice/wav/hurt.wav')
     elif trigger == 12:
-	perform_action("surprised", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/wrong.wav')
+        perform_action("surprised", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/wrong.wav')
     elif trigger == 13:
-	perform_action("happy", "", "right_hand_bye", 'package://kxr_controller/resources/pooh_voice/wav/bye.wav')
+        perform_action("happy", "", "right_hand_bye", 'package://kxr_controller/resources/pooh_voice/wav/bye.wav')
     elif trigger == 14:
-	perform_action("happy", "", "right_hand_up", 'package://kxr_controller/resources/pooh_voice/wav/hello.wav')
+        perform_action("happy", "", "right_hand_up", 'package://kxr_controller/resources/pooh_voice/wav/hello.wav')
     elif action in action_motion_pair:
         perform_action(*action_motion_pair.get(action), sound_data)
     else:
