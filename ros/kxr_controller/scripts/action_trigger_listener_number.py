@@ -31,35 +31,37 @@ class Arms(object):
     BANZAI = "banzai"
     ONEGAI = "onegai"
     LEFT_HAND_POINT = "left_hand_point"
-    BYE = "bye"
+    RIGHT_HAND_BYE = "right_hand_bye"
 
 action_motion_pair = {
-    (0, 1, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
+    (0, 1, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_UP),
     (0, 1, 2): (Eyebrows.EMPTY, Necks.NOD, Arms.EMPTY),
-    (0, 2, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
+    (0, 2, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_UP),
     (0, 2, 3): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
     (0, 2, 4): (Eyebrows.ANGRY, Necks.EMPTY, Arms.EMPTY),
-    (1, 1, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
+    (1, 1, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_UP),
     (1, 1, 3): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
     (1, 1, 4): (Eyebrows.ANGRY, Necks.EMPTY, Arms.EMPTY),
     (1, 2, 1): (Eyebrows.SAD, Necks.TILT, Arms.LEFT_HAND_CHIN),
     (1, 2, 2): (Eyebrows.NORMAL, Necks.NOD, Arms.EMPTY),
-    (1, 3, 1): (Eyebrows.EMPTY, Necks.TILT, Arms.LEFT_HAND_CHIN),
+    (1, 3, 1): (Eyebrows.NORMAL, Necks.TILT, Arms.LEFT_HAND_CHIN),
     (1, 3, 2): (Eyebrows.SAD, Necks.EMPTY, Arms.EMPTY),
     (1, 3, 3): (Eyebrows.HAPPY, Necks.EMPTY, Arms.EMPTY),
-    (1, 4, 1): (Eyebrows.EMPTY, Necks.TILT, Arms.EMPTY),
+    (1, 4, 1): (Eyebrows.NORMAL, Necks.TILT, Arms.EMPTY),
     (1, 4, 3): (Eyebrows.EMPTY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
-    (1, 5, 1): (Eyebrows.EMPTY, Necks.NOD, Arms.EMPTY),
+    (1, 5, 1): (Eyebrows.NORMAL, Necks.NOD, Arms.EMPTY),
     (1, 5, 2): (Eyebrows.SURPRISED, Necks.EMPTY, Arms.LEFT_HAND_CHIN),
     (2, 1, 1): (Eyebrows.NORMAL, Necks.TILT, Arms.LEFT_HAND_CHIN),
     (2, 1, 3): (Eyebrows.HAPPY, Necks.EMPTY, Arms.BANZAI),
-    (2, 2, 1): (Eyebrows.EMPTY, Necks.NOD, Arms.EMPTY),
+    (2, 2, 1): (Eyebrows.HAPPY, Necks.NOD, Arms.EMPTY),
     (2, 2, 3): (Eyebrows.ANGRY, Necks.DISAGREE, Arms.EMPTY),
     (2, 3, 1): (Eyebrows.SAD, Necks.EMPTY, Arms.EMPTY),
     (2, 3, 2): (Eyebrows.EMPTY, Necks.EMPTY, Arms.LEFT_HAND_CHIN),
     (2, 3, 3): (Eyebrows.EMPTY, Necks.NOD, Arms.EMPTY),
+    (2, 4, 1): (Eyebrows.SAD, Necks.EMPTY, Arms.EMPTY)
     (2, 4, 2): (Eyebrows.EMPTY, Necks.EMPTY, Arms.LEFT_HAND_CHIN),
     (2, 4, 3): (Eyebrows.EMPTY, Necks.TILT, Arms.EMPTY),
+    (2, 5, 1): (Eyebrows.SAD, Necks.EMPTY, Arms.EMPTY)
     (2, 5, 2): (Eyebrows.SURPRISED, Necks.TILT, Arms.EMPTY),
     (2, 5, 3): (Eyebrows.SAD, Necks.NOD, Arms.EMPTY),
     (3, 1, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
@@ -68,16 +70,17 @@ action_motion_pair = {
     (3, 2, 3): (Eyebrows.NORMAL, Necks.NOD, Arms.EMPTY),
     (3, 3, 1): (Eyebrows.SURPRISED, Necks.EMPTY, Arms.LEFT_HAND_POINT),
     (3, 3, 3): (Eyebrows.NORMAL, Necks.DISAGREE, Arms.EMPTY),
-    (3, 4, 1): (Eyebrows.EMPTY, Necks.TILT, Arms.EMPTY),
+    (3, 4, 1): (Eyebrows.NORMAL, Necks.TILT, Arms.EMPTY),
     (3, 4, 2): (Eyebrows.EMPTY, Necks.EMPTY, Arms.LEFT_HAND_CHIN),
     (3, 5, 1): (Eyebrows.SURPRISED, Necks.EMPTY, Arms.ONEGAI),
     (3, 5, 3): (Eyebrows.HAPPY, Necks.EMPTY, Arms.EMPTY),
     (4, 1, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_UP),
     (4, 1, 2): (Eyebrows.EMPTY, Necks.NOD, Arms.EMPTY),
-    (4, 2, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_MOUTH),
-    (4, 2, 2): (Eyebrows.NORMAL, Necks.EMPTY, Arms.LEFT_HAND_POINT),
+    (4, 1, 3): (Eyebrows.EMPTY, Necks.EMPTY, Arms.ONEGAI)
     (5, 1, 1): (Eyebrows.HAPPY, Necks.NOD, Arms.EMPTY),
-    (5, 2, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.BYE),
+    (5, 2, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_BYE),
+    (6, 1, 1): (Eyebrows.HAPPY, Necks.NOD, Arms.EMPTY),
+    (6, 1, 2): (Eyebrows.EMPTY, Necks.EMPTY, Arms.RIGHT_HAND_BYE), 
 }
 
 # 動作を実行する関数
@@ -108,7 +111,19 @@ def action_callback(msg):
 
     sound_data = "package://kxr_controller/resources/pooh_voice/wav/{}_{}_{}.wav".format(*action)
 
-    if action in action_motion_pair:
+    if trigger == 9:
+        perform_action("happy", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/thanks.wav')
+    elif trigger == 10:
+        perform_action("normal", "", "onegai", 'package://kxr_controller/resources/pooh_voice/wav/wait.wav')
+    elif trigger == 11:
+	perform_action("sad", "", "", 'package://kxr_controller/resources/pooh_voice/wav/hurt.wav')
+    elif trigger == 12:
+	perform_action("surprised", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/wrong.wav')
+    elif trigger == 13:
+	perform_action("happy", "", "right_hand_bye", 'package://kxr_controller/resources/pooh_voice/wav/bye.wav')
+    elif trigger == 14:
+	perform_action("happy", "", "right_hand_up", 'package://kxr_controller/resources/pooh_voice/wav/hello.wav')
+    elif action in action_motion_pair:
         perform_action(*action_motion_pair.get(action), sound_data)
     else:
         perform_action("", "", "", sound_data)
