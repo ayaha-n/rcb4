@@ -115,7 +115,7 @@ def action_callback(msg):
     if trigger == 9:
         perform_action("happy", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/thanks.wav')
     elif trigger == 10:
-        perform_action("normal", "", "onegai", 'package://kxr_controller/resources/pooh_voice/wav/wait.wav')
+        perform_action("normal", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/wait.wav')
     elif trigger == 11:
         perform_action("sad", "", "", 'package://kxr_controller/resources/pooh_voice/wav/hurt.wav')
     elif trigger == 12:
@@ -124,6 +124,11 @@ def action_callback(msg):
         perform_action("happy", "", "right_hand_bye", 'package://kxr_controller/resources/pooh_voice/wav/bye.wav')
     elif trigger == 14:
         perform_action("happy", "", "right_hand_up", 'package://kxr_controller/resources/pooh_voice/wav/hello.wav')
+    elif trigger == 15:
+        perform_action("happy", "", "left_hand_up", 'package://kxr_controller/resources/pooh_voice/wav/hello.wav')
+    elif trigger == 16:
+        perform_action("happy", "", "left_hand_bye", 'package://kxr_controller/resources/pooh_voice/wav/bye.wav')
+
     elif action in action_motion_pair:
         perform_action(*action_motion_pair.get(action), sound_data)
     else:
