@@ -19,11 +19,25 @@ class ActionButton(Plugin):
 
         self.publisher = rospy.Publisher("/action_trigger", UInt16, queue_size=1)
 
+        # Mapping for button labels
+        button_labels = {
+            9: "Thanks",
+            10: "Wait",
+            11: "Stomach",
+            12: "Oops",
+            13: "Bye (R)",
+            14: "Hi (R)",
+            15: "Hi (L)",
+            16: "Bye (L)",
+        }
+
         # Create buttons
         for row in range(4):
             for col in range(4):
                 button_number = row * 4 + col + 1
-                button = QPushButton(str(button_number))
+                button = QPushButton(
+                    button_labels.get(button_number, str(button_number))
+                )  # Use label if available, otherwise default to number
                 button.setSizePolicy(
                     QSizePolicy.Expanding, QSizePolicy.Expanding
                 )  # Allow buttons to expand
