@@ -29,10 +29,15 @@ class ActionButton(Plugin):
             14: "Hi (R)",
             15: "Hi (L)",
             16: "Bye (L)",
+            17: "Banzai",
+            18: "Nod",
+            19: "Sleepy",
+            20: "OK",
+            21: "Disagree"
         }
 
         # Create buttons
-        for row in range(4):
+        for row in range(6): # 4
             for col in range(4):
                 button_number = row * 4 + col + 1
                 button = QPushButton(
