@@ -133,6 +133,16 @@ def action_callback(msg):
         perform_action("sad", "", "", 'package://kxr_controller/resources/pooh_voice/wav/output_hurt.wav')
     elif trigger == 16:
         perform_action("surprised", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/output_wrong.wav')
+    elif trigger == 17:
+        perform_action("happy", "", "banzai", 'package://kxr_controller/resources/pooh_voice/wav/silent_3sec.wav')
+    elif trigger == 18:
+        perform_action("happy", "nod", "", 'package://kxr_controller/resources/pooh_voice/wav/output_nod.wav')
+    elif trigger == 19:
+        perform_action("", "tilt", "", 'package://kxr_controller/resources/pooh_voice/wav/output_sleepy.wav')
+    elif trigger == 20:
+        perform_action("happy", "", "right_hand_up", 'package://kxr_controller/resources/pooh_voice/wav/output_ok.wav')
+    elif trigger == 21:
+        perform_action("", "disagree", "", 'package://kxr_controller/resources/pooh_voice/wav/output_disagree.wav')
 
     elif action in action_motion_pair:
         perform_action(*action_motion_pair.get(action), sound_data)
