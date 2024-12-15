@@ -59,13 +59,13 @@ def nod(send_time=1):
 def natural_nod():
     global speak_flag
     controller_type = 'head_controller'
-    send_time = 0.5*random.randint(1,3)
 
     rate = rospy.Rate(10)
     rospy.sleep(1.0)
     rospy.loginfo("while")
     while not rospy.is_shutdown() and speak_flag is True:
         rospy.loginfo("Waiting is_speaking is False")
+        send_time = 0.5*random.randint(1,3)
         rospy.sleep(0.5)
         robot_model.head_neck_p.joint_angle(np.deg2rad(20))
         ri.angle_vector(robot_model.angle_vector(), send_time,
