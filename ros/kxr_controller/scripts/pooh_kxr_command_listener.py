@@ -10,6 +10,7 @@ from kxr_controller.pooh_interface import PoohROSRobotInterface
 from kxr_models.download_urdf import download_urdf_mesh_files
 from skrobot.model import RobotModel
 import numpy as np
+import random
 
 speak_flag = False
 
@@ -55,6 +56,27 @@ def nod(send_time=1):
                     controller_type=controller_type)
     ri.wait_interpolation()    
 
+def natural_nod():
+    global speak_flag
+    controller_type = 'head_controller'
+    send_time = 0.5*random.randint(1,3)
+
+    rate = rospy.Rate(10)
+    rospy.sleep(1.0)
+    rospy.loginfo("while")
+    while not rospy.is_shutdown() and speak_flag is True:
+        rospy.loginfo("Waiting is_speaking is False")
+        rospy.sleep(0.5)
+        robot_model.head_neck_p.joint_angle(np.deg2rad(20))
+        ri.angle_vector(robot_model.angle_vector(), send_time,
+                        controller_type=controller_type)
+        ri.wait_interpolation()
+        robot_model.head_neck_p.joint_angle(np.deg2rad(0))
+        ri.angle_vector(robot_model.angle_vector(), send_time,
+                        controller_type=controller_type)
+        ri.wait_interpolation()
+        rate.sleep()
+    rospy.loginfo("while end")
 # disagree動作
 def disagree(send_time=0.5):
     controller_type = 'head_controller'
@@ -83,7 +105,11 @@ def tilt(send_time=1):
     controller_type = 'head_controller'
     #ri.angle_vector(robot_model.init_pose(),
     #                controller_type=controller_type)
-    robot_model.head_neck_r.joint_angle(np.deg2rad(20))
+    ret = random.randint(0,1)
+    if ret == 0:
+        robot_model.head_neck_r.joint_angle(np.deg2rad(20))
+    elif ret == 1:
+        robot_model.head_neck_r.joint_angle(np.deg2rad(-20))
     ri.angle_vector(robot_model.angle_vector(), send_time,
                     controller_type=controller_type)
     ri.wait_interpolation()
@@ -160,7 +186,7 @@ def left_hand_up(send_time=1):
     ri.wait_interpolation()
 
 def start_shake(send_time=1):
-    ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  6.6680324e-01,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type) 
+    ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  6.6680324e-01,  1.1892895e+00,-3.0335987e-01], send_time, controller_type='larm_controller') 
     ri.wait_interpolation()
 
 def init_pose(send_time=1):
@@ -168,23 +194,27 @@ def init_pose(send_time=1):
                     controller_type='larm_controller')                                                                                                                                                    
     ri.wait_interpolation()
 
-def janken(send_time=0.5):
+def janken(send_time=0.4):
+    controller_type='larm_controller'
     rospy.sleep(1.0)
-    ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.937971,  0.66,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
+    ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.937971,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
     ri.wait_interpolation()
-    for i in range(3):
-        ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type) 
+    rospy.sleep(1.0)
+    for i in range(2):
+        ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  0.8,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
         ri.wait_interpolation()
-        ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.937971,  0.66,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)             ri.wait_interpolation()
-    ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)  
-    ri.wait_interpolation()
-
-def aiko(send_time=0.5):                                                                                                                                                                                 
-    for i in range(2):                                                                                                                                                                                    
-        ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  0.66,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
-        ri.wait_interpolation()                                                                                                                                                                           
         ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.937971,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
-        ri.wait_interpolation()                                                                                                                                                                           
+        ri.wait_interpolation()
+    #ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)  
+    #ri.wait_interpolation()
+
+def aiko(send_time=0.5):
+    controller_type='larm_controller'
+    
+    ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  0.8,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
+    ri.wait_interpolation()
+    ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.937971,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
+    ri.wait_interpolation()                                                                                                                                                                           
 
 
 
@@ -259,6 +289,9 @@ def neck_motion_callback(msg):
     if command == 'nod':
         rospy.loginfo('Executing nod motion')
         nod()
+    elif command == 'natural_nod':
+        rospy.loginfo('Executing natural_nod motion')
+        natural_nod()
     elif command == 'disagree':
         rospy.loginfo('Executing disagree motion')
         disagree()
