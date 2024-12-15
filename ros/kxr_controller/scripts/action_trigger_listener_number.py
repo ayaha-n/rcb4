@@ -7,6 +7,7 @@ from ros_speak import play_sound
 from pathlib import Path  # pathlibをインポート
 from dynamic_reconfigure.server import Server
 from kxr_controller.cfg import PoohScenarioConfig
+import random
 
 class Eyebrows(object):
     EMPTY = ""
@@ -36,6 +37,7 @@ class Arms(object):
     LEFT_HAND_UP = "left_hand_up"
     START_SHAKE = "start_shake"
     JANKEN = "janken"
+    AIKO = "aiko"
     INIT_POSE = "init_pose"
     
 action_motion_pair = {
@@ -117,32 +119,68 @@ def action_callback(msg):
 
     sound_data = "package://kxr_controller/resources/pooh_voice/wav/output_{}_{}_{}.wav".format(*action)
 
-    if trigger == 9:
+    if trigger == 7:
         perform_action("happy", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/output_thanks.wav')
-    elif trigger == 10:
+    elif trigger == 8:
         perform_action("happy", "", "right_hand_bye", 'package://kxr_controller/resources/pooh_voice/wav/output_bye.wav')
-    elif trigger == 11:
+    elif trigger == 9:
         perform_action("happy", "", "left_hand_bye", 'package://kxr_controller/resources/pooh_voice/wav/output_bye.wav')
-    elif trigger == 12:
+    elif trigger == 10:
         perform_action("happy", "", "right_hand_up", 'package://kxr_controller/resources/pooh_voice/wav/output_hello.wav')
-    elif trigger == 13:
+    elif trigger == 11:
         perform_action("happy", "", "left_hand_up", 'package://kxr_controller/resources/pooh_voice/wav/output_hello.wav')       
-    elif trigger == 14:
+    elif trigger == 12:
         perform_action("normal", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/output_wait.wav')
-    elif trigger == 15:
-        perform_action("sad", "", "", 'package://kxr_controller/resources/pooh_voice/wav/output_hurt.wav')
-    elif trigger == 16:
+    elif trigger == 13:
+        perform_action("sad", "nod", "", 'package://kxr_controller/resources/pooh_voice/wav/output_hurt.wav')
+    elif trigger == 14:
         perform_action("surprised", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/output_wrong.wav')
-    elif trigger == 17:
-        perform_action("happy", "", "banzai", 'package://kxr_controller/resources/pooh_voice/wav/silent_3sec.wav')
-    elif trigger == 18:
-        perform_action("happy", "nod", "", 'package://kxr_controller/resources/pooh_voice/wav/output_nod.wav')
-    elif trigger == 19:
-        perform_action("", "tilt", "", 'package://kxr_controller/resources/pooh_voice/wav/output_sleepy.wav')
-    elif trigger == 20:
+    elif trigger == 15:
+        perform_action("normal", "tilt", "", 'package://kxr_controller/resources/pooh_voice/wav/output_sleepy.wav')
+    elif trigger == 16:
         perform_action("happy", "", "right_hand_up", 'package://kxr_controller/resources/pooh_voice/wav/output_ok.wav')
-    elif trigger == 21:
-        perform_action("", "disagree", "", 'package://kxr_controller/resources/pooh_voice/wav/output_disagree.wav')
+    elif trigger == 17:
+        perform_action("happy", "nod", "", 'package://kxr_controller/resources/pooh_voice/wav/output_nod.wav')
+    elif trigger == 18:
+        perform_action("normal", "nod", "", 'package://kxr_controller/resources/pooh_voice/wav/output_nod2.wav')
+    elif trigger == 19:
+        perform_action("normal", "nod", "", 'package://kxr_controller/resources/pooh_voice/wav/output_nod3.wav')
+    elif trigger == 20:
+        perform_action("normal", "disagree", "", 'package://kxr_controller/resources/pooh_voice/wav/output_disagree.wav')   
+    elif trigger == 21:                                                                                                                                                                                   
+        perform_action("sad", "tilt", "", 'package://kxr_controller/resources/pooh_voice/wav/output_dontknow.wav')    
+    elif trigger == 22:
+        ret = random.randient(0,1)
+        if ret == 0:
+            perform_action("happy", "", "janken", 'package://kxr_controller/resources/pooh_voice/wav/output_janken_rock.wav')
+        if ret == 1:                                                                                                                                                                                      
+            perform_action("happy", "", "janken", 'package://kxr_controller/resources/pooh_voice/wav/output_janken_paper.wav')
+    elif trigger == 23:                                                                                                                                                                                   
+        ret = random.randient(0,1)                                                                                                                                                                        
+        if ret == 0:                                                                                                                                                                                      
+            perform_action("happy", "", "aiko", 'package://kxr_controller/resources/pooh_voice/wav/output_aiko_rock.wav')                     
+        if ret == 1:                                                                                                                                                                                      
+            perform_action("happy", "", "aiko", 'package://kxr_controller/resources/pooh_voice/wav/output_aiko_paper.wav')      
+    elif trigger == 24:                                                                                                                                                                                   
+        perform_action("sad", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/output_lose.wav')
+    elif trigger == 25:
+        perform_action("happy", "", "banzai", 'package://kxr_controller/resources/pooh_voice/wav/output_yeah.wav')
+    elif trigger == 26:                                                                                                                                                                                   
+        perform_action("normal", "", "init_pose", 'package://kxr_controller/resources/pooh_voice/wav/silent_3sec.wav') 
+    elif trigger == 27:
+        perform_action("happy", "", "banzai", 'package://kxr_controller/resources/pooh_voice/wav/silent_3sec.wav')
+    elif trigger == 28:                                                                                                                                                                                   
+        perform_action("happy", "tilt", "", 'package://kxr_controller/resources/pooh_voice/wav/output_start_shake.wav')
+    elif trigger == 29:                                                                                                                                                                                   
+        ret = random.randient(1,3)                                                                                                                                                                        
+        if ret == 1:                                                                                                                                                                                      
+            perform_action("happy", "tilt", "", 'package://kxr_controller/resources/pooh_voice/wav/output_during_shake1.wav')                                                                            
+        if ret == 2:                                                                                                                                                                                      
+            perform_action("happy", "tilt", "", 'package://kxr_controller/resources/pooh_voice/wav/output_during_shake2.wav')
+        if ret == 3:
+            perform_action("happy", "tilt", "", 'package://kxr_controller/resources/pooh_voice/wav/output_during_shake3.wav')        
+    elif trigger == 30:                                                                                                                                                                                   
+        perform_action("happy", "", "init_pose", 'package://kxr_controller/resources/pooh_voice/wav/output_end_shake.wav')   
 
     elif action in action_motion_pair:
         perform_action(*action_motion_pair.get(action), sound_data)

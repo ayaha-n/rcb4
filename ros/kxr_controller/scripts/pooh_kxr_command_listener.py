@@ -159,6 +159,34 @@ def left_hand_up(send_time=1):
                     controller_type='larm_controller')
     ri.wait_interpolation()
 
+def start_shake(send_time=1):
+    ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  6.6680324e-01,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type) 
+    ri.wait_interpolation()
+
+def init_pose(send_time=1):
+    ri.angle_vector(robot_model.init_pose(), send_time,                                                                                                                                                   
+                    controller_type='larm_controller')                                                                                                                                                    
+    ri.wait_interpolation()
+
+def janken(send_time=0.5):
+    rospy.sleep(1.0)
+    ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.937971,  0.66,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
+    ri.wait_interpolation()
+    for i in range(3):
+        ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type) 
+        ri.wait_interpolation()
+        ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.937971,  0.66,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)             ri.wait_interpolation()
+    ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)  
+    ri.wait_interpolation()
+
+def aiko(send_time=0.5):                                                                                                                                                                                 
+    for i in range(2):                                                                                                                                                                                    
+        ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  0.66,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
+        ri.wait_interpolation()                                                                                                                                                                           
+        ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.937971,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
+        ri.wait_interpolation()                                                                                                                                                                           
+
+
 
 def onegai():
     global speak_flag
@@ -274,6 +302,18 @@ def arm_motion_callback(msg):
     elif command == 'left_hand_bye':
         rospy.loginfo('Executing left_hand_bye motion')
         left_hand_bye()
+    elif command == 'janken':                                                                                                                                                                      
+        rospy.loginfo('Executing janken motion')                                                                                                                                                    
+        janken()
+    elif command == 'aiko':                                                                                                                                                                      
+        rospy.loginfo('Executing aiko motion')                                                                                                                                                   
+        aiko()
+    elif command == 'start_shake':                                                                                                                                                                      
+        rospy.loginfo('Executing start_shake motion')                                                                                                                                                    
+        start_shake()
+    elif command == 'init_pose':                                                                                                                                                                      
+        rospy.loginfo('Executing init_pose motion')                                                                                                                                                    
+        init_pose() 
     elif command == '':
         rospy.loginfo('no arm motion')
     else:

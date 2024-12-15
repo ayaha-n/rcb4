@@ -21,25 +21,36 @@ class ActionButton(Plugin):
 
         # Mapping for button labels
         button_labels = {
-            9: "Thanks",
-            10: "Wait",
-            11: "Stomach",
-            12: "Oops",
-            13: "Bye (R)",
-            14: "Hi (R)",
-            15: "Hi (L)",
-            16: "Bye (L)",
-            17: "Banzai",
-            18: "Nod",
-            19: "Sleepy",
-            20: "OK",
-            21: "Disagree"
+            7: "Thanks",
+            8: "Bye (R)",
+            9: "Bye (L)",
+            10: "Hi (R)",
+            11: "Hi (L)",
+            12: "Wait",
+            13: "Stomach",
+            14: "Oops",
+            15: "Sleepy",
+            16: "OK",
+            17: "Yes",
+            18: "Right",
+            19: "Understand",
+            20: "Disagree",
+            21: "Don't know",
+            22: "Janken",
+            23: "Aiko",
+            24: "Lose",
+            25: "Yeah",
+            26: "End Janken"
+            27: "Banzai",
+            28: "Start Shake",
+            29: "During Shake",
+            30: "End Shake"
         }
 
         # Create buttons
         for row in range(6): # 4
-            for col in range(4):
-                button_number = row * 4 + col + 1
+            for col in range(5):
+                button_number = row * 5 + col + 1
                 button = QPushButton(
                     button_labels.get(button_number, str(button_number))
                 )  # Use label if available, otherwise default to number
