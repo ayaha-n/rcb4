@@ -32,7 +32,12 @@ class Arms(object):
     ONEGAI = "onegai"
     LEFT_HAND_POINT = "left_hand_point"
     RIGHT_HAND_BYE = "right_hand_bye"
-
+    LEFT_HAND_BYE = "left_hand_bye"
+    LEFT_HAND_UP = "left_hand_up"
+    START_SHAKE = "start_shake"
+    JANKEN = "janken"
+    INIT_POSE = "init_pose"
+    
 action_motion_pair = {
     (0, 1, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_UP),
     (0, 1, 2): (Eyebrows.EMPTY, Necks.NOD, Arms.EMPTY),
@@ -115,19 +120,19 @@ def action_callback(msg):
     if trigger == 9:
         perform_action("happy", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/output_thanks.wav')
     elif trigger == 10:
-        perform_action("normal", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/output_wait.wav')
-    elif trigger == 11:
-        perform_action("sad", "", "", 'package://kxr_controller/resources/pooh_voice/wav/output_hurt.wav')
-    elif trigger == 12:
-        perform_action("surprised", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/output_wrong.wav')
-    elif trigger == 13:
         perform_action("happy", "", "right_hand_bye", 'package://kxr_controller/resources/pooh_voice/wav/output_bye.wav')
-    elif trigger == 14:
-        perform_action("happy", "", "right_hand_up", 'package://kxr_controller/resources/pooh_voice/wav/output_hello.wav')
-    elif trigger == 15:
-        perform_action("happy", "", "left_hand_up", 'package://kxr_controller/resources/pooh_voice/wav/output_hello.wav')
-    elif trigger == 16:
+    elif trigger == 11:
         perform_action("happy", "", "left_hand_bye", 'package://kxr_controller/resources/pooh_voice/wav/output_bye.wav')
+    elif trigger == 12:
+        perform_action("happy", "", "right_hand_up", 'package://kxr_controller/resources/pooh_voice/wav/output_hello.wav')
+    elif trigger == 13:
+        perform_action("happy", "", "left_hand_up", 'package://kxr_controller/resources/pooh_voice/wav/output_hello.wav')       
+    elif trigger == 14:
+        perform_action("normal", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/output_wait.wav')
+    elif trigger == 15:
+        perform_action("sad", "", "", 'package://kxr_controller/resources/pooh_voice/wav/output_hurt.wav')
+    elif trigger == 16:
+        perform_action("surprised", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/output_wrong.wav')
 
     elif action in action_motion_pair:
         perform_action(*action_motion_pair.get(action), sound_data)
