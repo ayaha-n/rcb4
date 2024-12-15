@@ -40,7 +40,7 @@ class ActionButton(Plugin):
             23: "Aiko",
             24: "Lose",
             25: "Yeah",
-            26: "End Janken"
+            26: "End Janken",
             27: "Banzai",
             28: "Start Shake",
             29: "During Shake",
