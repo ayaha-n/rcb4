@@ -125,18 +125,58 @@ def tilt(send_time=1):
                     controller_type=controller_type)
     ri.wait_interpolation()    
 
-def right_hand_up(send_time=1):
-    controller_type='rarm_controller'
-    ri.angle_vector([-0.02238367,  0.19497527,  0.00824686, -1.7 ,  0.9024227 ,-1.1356856 ,  0.27862018,  0.33399075, -0.28627747], send_time, controller_type=controller_type)
-    ri.wait_interpolation()
-    rospy.sleep(2.0)
+def servo_on_before_action(joint_list):
+    ri.servo_on(joint_list)
+    rospy.loginfo(f"{joint_list} servo_on")
+    #ri.angle_vector(robot_model.init_pose(), send_time,
+                    #controller_type=controller_type)
+    #ri.wait_interpolation()
+
+def init_and_servo_off(joint_list, controller_type, send_time=1):
     ri.angle_vector(robot_model.init_pose(), send_time,
                     controller_type=controller_type)
     ri.wait_interpolation()
+    ri.servo_off(joint_list)
+    rospy.loginfo(f"{joint_list} servo_off")
 
+def init_and_servo_off_double_arm(joint_list, send_time=1):
+    ri.angle_vector(robot_model.init_pose(), send_time,
+                    controller_type='larm_controller')
+    ri.angle_vector(robot_model.init_pose(), send_time,
+                    controller_type='rarm_controller')
+    ri.wait_interpolation()
+    ri.servo_off(joint_list)
+    rospy.loginfo(f"{joint_list} servo_off")
+
+
+
+
+
+    
+def right_hand_up(send_time=1):
+    controller_type='rarm_controller'
+    #ri.angle_vector([-0.02238367,  0.19497527,  0.00824686, -1.7 ,  0.9024227 ,-1.1356856 ,  0.27862018,  0.33399075, -0.28627747], send_time, controller_type=controller_type)
+    #ri.servo_on(['rarm_shoulder_p'])
+    #rospy.loginfo("rarm_joint0 servo_on")
+    #ri.angle_vector(robot_model.init_pose(), send_time,
+                    #controller_type=controller_type)
+    #ri.wait_interpolation()
+    servo_on_before_action(['rarm_shoulder_p']) 
+    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.31 ,  0.49 ,-1.00 ,  1.31 , -0.49 ,  1.00 ], send_time, controller_type=controller_type)
+    ri.wait_interpolation()
+    rospy.sleep(2.0)
+    #ri.angle_vector(robot_model.init_pose(), send_time,
+                    #controller_type=controller_type)
+    #ri.wait_interpolation()
+    #ri.servo_off(['rarm_shoulder_p'])
+    #rospy.loginfo("rarm_joint0 servo_off")
+    init_and_servo_off(['rarm_shoulder_p'], controller_type, send_time)	
+    
 def left_hand_chin():
     global speak_flag
     controller_type='larm_controller'
+    servo_on_before_action(['larm_shoulder_p'])
+
     ri.angle_vector([-0.12370004,  0.2727297 , -0.01943843, -0.9283405 ,  0.0111921, 0.03063071,  0.2049891 ,  1.3224144 , -1.5380058 ], 2, controller_type=controller_type)
     ri.wait_interpolation()
     rate = rospy.Rate(10)
@@ -147,12 +187,14 @@ def left_hand_chin():
         rate.sleep()
     rospy.loginfo("while end")
 
-    ri.angle_vector(robot_model.init_pose(), 3, controller_type=controller_type)
-    ri.wait_interpolation()
+    init_and_servo_off(['larm_shoulder_p'], controller_type, 3)
+
 
 def right_hand_mouth():
     global speak_flag
     controller_type='rarm_controller'                                          
+    servo_on_before_action(['rarm_shoulder_p'])
+
     ri.angle_vector([ 0.034165  ,  0.26742825,  0.00824686, -1 , -1.4095932 ,0.603775  ,  0.09248082, -0.00530126, -0.00530126], 2, controller_type=controller_type)
     ri.wait_interpolation()
     rate = rospy.Rate(10)
@@ -163,40 +205,51 @@ def right_hand_mouth():
         rate.sleep()
     rospy.loginfo("while end")
 
-    ri.angle_vector(robot_model.init_pose(), 3, controller_type=controller_type)                
-    ri.wait_interpolation()
+    init_and_servo_off(['rarm_shoulder_p'], controller_type, 3)
 
+    
 def banzai(send_time=1):
-    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.7 ,  0.6114327 ,-1.1828095 ,  1.3094553 , -0.4948007 ,  0.9960814 ], send_time, controller_type='rarm_controller')
-    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.7 ,  0.6114327 ,-1.1828095 ,  1.3094553 , -0.4948007 ,  0.9960814 ], send_time, controller_type='larm_controller')
+    #ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.7 ,  0.6114327 ,-1.1828095 ,  1.3094553 , -0.4948007 ,  0.9960814 ], send_time, controller_type='rarm_controller')
+    #ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.7 ,  0.6114327 ,-1.1828095 ,  1.3094553 , -0.4948007 ,  0.9960814 ], send_time, controller_type='larm_controller')
+    servo_on_before_action(['rarm_shoulder_p', 'larm_shoulder_p'])
+    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.31 ,  0.49 ,-1.00 ,  1.31 , -0.49 ,  1.00 ], send_time, controller_type='rarm_controller')
+    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.31 ,  0.49 ,-1.00 ,  1.31 , -0.49 ,  1.00 ], send_time, controller_type='larm_controller')
     ri.wait_interpolation()
     rospy.sleep(2.0)
-    ri.angle_vector(robot_model.init_pose(), send_time,
-                    controller_type='rarm_controller')
-    ri.angle_vector(robot_model.init_pose(), send_time,
-                    controller_type='larm_controller')
-    ri.wait_interpolation()
+    init_and_servo_off_double_arm(['rarm_shoulder_p', 'larm_shoulder_p'], send_time)
 
 def left_hand_up(send_time=1):
-    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.83 ,  0.6114327 ,-1.1828095 ,  1.3094553 , -0.4948007 ,  0.9960814 ], send_time, controller_type='larm_controller')
+    #ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.83 ,  0.6114327 ,-1.1828095 ,  1.3094553 , -0.4948007 ,  0.9960814 ], send_time, controller_type='larm_controller')
+    controller_type = 'larm_controller'
+    servo_on_before_action(['larm_shoulder_p'])
+
+    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.31 ,  0.49 ,-1.00 ,  1.31 , -0.49 ,  1.00 ], send_time, controller_type=controller_type)
     ri.wait_interpolation()
     rospy.sleep(2.0)
-    ri.angle_vector(robot_model.init_pose(), send_time,
-                    controller_type='larm_controller')
-    ri.wait_interpolation()
+    init_and_servo_off(['larm_shoulder_p'], controller_type, send_time)
 
+    
 def start_shake(send_time=1):
-    ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  6.6680324e-01,  1.1892895e+00,-3.0335987e-01], send_time, controller_type='larm_controller') 
-    ri.wait_interpolation()
+    controller_type = 'larm_controller'
+    servo_on_before_action(['larm_shoulder_p'])
 
+    ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  6.6680324e-01,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type) 
+    ri.wait_interpolation()
+    ri.servo_off(['larm_shoulder_p'])    
+
+    
 def init_pose(send_time=1):
-    ri.angle_vector(robot_model.init_pose(), send_time,                                                                                                                                                   
-                    controller_type='larm_controller')                                                                                                                                                    
-    ri.wait_interpolation()
+    controller_type = 'larm_controller'
+    servo_on_before_action(['larm_shoulder_p'])
+    init_and_servo_off(['larm_shoulder_p'], controller_type, send_time)
 
+
+    
 def janken(send_time=0.4):
     controller_type='larm_controller'
     rospy.sleep(1.0)
+    servo_on_before_action(['larm_shoulder_p'])
+
     ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.937971,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
     ri.wait_interpolation()
     rospy.sleep(1.0)
@@ -205,23 +258,30 @@ def janken(send_time=0.4):
         ri.wait_interpolation()
         ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.937971,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
         ri.wait_interpolation()
+    ri.servo_off(['larm_shoulder_p'])
+
     #ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)  
     #ri.wait_interpolation()
 
+    
 def aiko(send_time=0.5):
     controller_type='larm_controller'
-    
+    servo_on_before_action(['larm_shoulder_p'])
+
     ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  0.8,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
     ri.wait_interpolation()
     ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.937971,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
-    ri.wait_interpolation()                                                                                                                                                                           
+    ri.wait_interpolation()
+    ri.servo_off(['larm_shoulder_p'])
 
 
 
 def onegai():
     global speak_flag
-    ri.angle_vector([-0.00530126,  0.23915392,  0.00235637, -1.1121236, -0.84587365, 0.8623674 ,  0.2049891 ,  1.0979868 , -1.0049168 ], 2, controller_type='rarm_controller')
-    ri.angle_vector([-0.00530126,  0.23915392,  0.00235637, -1.1121236 , -0.84587365, 0.8623674 ,  0.2049891 ,  1.0979868 , -1.0049168 ], 2, controller_type='larm_controller')
+    servo_on_before_action(['rarm_shoulder_p', 'larm_shoulder_p'])
+
+    ri.angle_vector([-0.00530126,  0.23915392,  0.00235637, -1.11, -0.85, 0.86,  1.11,  0.85, -0.86 ], 2, controller_type='rarm_controller')
+    ri.angle_vector([-0.00530126,  0.23915392,  0.00235637, -1.11 , -0.85, 0.86,  1.11,  0.85, -0.86 ], 2, controller_type='larm_controller')
 
 
     ri.wait_interpolation()
@@ -233,49 +293,54 @@ def onegai():
         rate.sleep()
     rospy.loginfo("while end")
 
-    ri.angle_vector(robot_model.init_pose(), 2, controller_type='rarm_controller')
-    ri.angle_vector(robot_model.init_pose(), 2, controller_type='larm_controller')
-    ri.wait_interpolation()
+    init_and_servo_off_double_arm(['rarm_shoulder_p', 'larm_shoulder_p'], 2)
 
+    
 def left_hand_point(send_time=1):
     controller_type = 'larm_controller'
+    servo_on_before_action(['larm_shoulder_p'])
+
     ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  6.6680324e-01,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
     ri.wait_interpolation()
-    ri.angle_vector(robot_model.init_pose(), send_time, controller_type='larm_controller')
-    ri.wait_interpolation()
+    init_and_servo_off(['larm_shoulder_p'], controller_type, send_time)
+
 
 def right_hand_bye(send_time=0.5):
     controller_type = 'rarm_controller'
-    ri.angle_vector([ 1.7555017e-07,  2.4504441e-01,  8.2468567e-03, -1.7,9.1302715e-02, -1.3177017e+00,  1.3783756e-01,  5.3016134e-03,5.3016134e-03], 2, controller_type=controller_type)
-    ri.wait_interpolation()
-    ri.angle_vector([ 1.7555017e-07,  2.5034586e-01,  8.2468567e-03, -1.7,5.4840446e-01, -5.4545885e-01,  1.3194707e-01,  5.3016134e-03,5.3016134e-03], send_time, controller_type=controller_type)
-    ri.wait_interpolation()
-    ri.angle_vector([ 1.7555017e-07,  2.4504441e-01,  8.2468567e-03, -1.7,9.1302715e-02, -1.3177017e+00,  1.3783756e-01,  5.3016134e-03,5.3016134e-03], send_time, controller_type=controller_type)
-    ri.wait_interpolation()
-    ri.angle_vector([ 1.7555017e-07,  2.5034586e-01,  8.2468567e-03, -1.7,5.4840446e-01, -5.4545885e-01,  1.3194707e-01,  5.3016134e-03,5.3016134e-03], send_time, controller_type=controller_type)
-    ri.wait_interpolation()
-    ri.angle_vector([ 1.7555017e-07,  2.4504441e-01,  8.2468567e-03, -1.7,9.1302715e-02, -1.3177017e+00,  1.3783756e-01,  5.3016134e-03,5.3016134e-03], send_time, controller_type=controller_type)
-    ri.wait_interpolation()
+    servo_on_before_action(['rarm_shoulder_p'])
 
-    ri.angle_vector(robot_model.init_pose(), 2, controller_type=controller_type)
+    ri.angle_vector([ 1.7555017e-07,  2.4504441e-01,  8.2468567e-03, -1.3, 0.09, -1.31,  1.3783756e-01,  5.3016134e-03,5.3016134e-03], 2, controller_type=controller_type)
     ri.wait_interpolation()
+    ri.angle_vector([ 1.7555017e-07,  2.5034586e-01,  8.2468567e-03, -1.3, 0.55, -0.55,  1.3194707e-01,  5.3016134e-03,5.3016134e-03], send_time, controller_type=controller_type)
+    ri.wait_interpolation()
+    ri.angle_vector([ 1.7555017e-07,  2.4504441e-01,  8.2468567e-03, -1.3, 0.09, -1.31,  1.3783756e-01,  5.3016134e-03,5.3016134e-03], send_time, controller_type=controller_type)
+    ri.wait_interpolation()
+    ri.angle_vector([ 1.7555017e-07,  2.5034586e-01,  8.2468567e-03, -1.3, 0.55, -0.55,  1.3194707e-01,  5.3016134e-03,5.3016134e-03], send_time, controller_type=controller_type)
+    ri.wait_interpolation()
+    ri.angle_vector([ 1.7555017e-07,  2.4504441e-01,  8.2468567e-03, -1.3, 0.09, -1.31,  1.3783756e-01,  5.3016134e-03,5.3016134e-03], send_time, controller_type=controller_type)
+    ri.wait_interpolation()
+    init_and_servo_off(['rarm_shoulder_p'], controller_type, 2)
+
+
 
 def left_hand_bye(send_time=0.5):
     controller_type = 'larm_controller'
-    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.7 ,  0.6114327 ,-1.1828095 ,  1.3094553 , -0.3 ,  0.6960814 ], 2, controller_type=controller_type)
+    servo_on_before_action(['larm_shoulder_p'])
+
+    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.7 ,  0.6114327 ,-1.1828095 ,  1.3, -0.09 , 1.31 ], 2, controller_type=controller_type)
     ri.wait_interpolation()
-    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.7 ,  0.6114327 ,-1.1828095 ,  1.3094553 , -0.1 ,  0.9960814 ], send_time, controller_type=controller_type)
+    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.7 ,  0.6114327 ,-1.1828095 ,  1.3 , -0.55 ,  0.55 ], send_time, controller_type=controller_type)
     ri.wait_interpolation()
-    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.7 ,  0.6114327 ,-1.1828095 ,  1.34553 , -0.3 ,  0.6960814 ], send_time, controller_type=controller_type)
+    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.7 ,  0.6114327 ,-1.1828095 ,  1.3 , -0.09 ,  1.31 ], send_time, controller_type=controller_type)
     ri.wait_interpolation()
-    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.7 ,  0.6114327 ,-1.1828095 ,  1.3094553 , -0.1 ,  0.9960814 ], send_time, controller_type=controller_type)
+    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.7 ,  0.6114327 ,-1.1828095 ,  1.3 , -0.55 ,  0.55 ], send_time, controller_type=controller_type)
     ri.wait_interpolation()
-    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.7 ,  0.6114327 ,-1.1828095 ,  1.3094553 , -0.3 ,  0.6960814 ], send_time, controller_type=controller_type)
+    ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.7 ,  0.6114327 ,-1.1828095 ,  1.3 , -0.09 ,  1.31], send_time, controller_type=controller_type)
     ri.wait_interpolation()
 
-    ri.angle_vector(robot_model.init_pose(), 2, controller_type=controller_type)
-    ri.wait_interpolation()
+    init_and_servo_off(['larm_shoulder_p'], controller_type, 2)
 
+    
 
 
 
