@@ -119,36 +119,38 @@ def action_callback(msg):
 
     sound_data = "package://kxr_controller/resources/pooh_voice/wav/output_{}_{}_{}.wav".format(*action)
 
-    if trigger == 7:
+    if trigger == 6:
         perform_action("happy", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/output_thanks.wav')
-    elif trigger == 8:
+    elif trigger == 7:
         perform_action("happy", "", "right_hand_bye", 'package://kxr_controller/resources/pooh_voice/wav/output_bye.wav')
-    elif trigger == 9:
+    elif trigger == 8:
         perform_action("happy", "", "left_hand_bye", 'package://kxr_controller/resources/pooh_voice/wav/output_bye.wav')
-    elif trigger == 10:
+    elif trigger == 9:
         perform_action("happy", "", "right_hand_up", 'package://kxr_controller/resources/pooh_voice/wav/output_hello.wav')
-    elif trigger == 11:
+    elif trigger == 10:
         perform_action("happy", "", "left_hand_up", 'package://kxr_controller/resources/pooh_voice/wav/output_hello.wav')       
-    elif trigger == 12:
+    elif trigger == 11:
         perform_action("normal", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/output_wait.wav')
-    elif trigger == 13:
+    elif trigger == 12:
         perform_action("sad", "nod", "", 'package://kxr_controller/resources/pooh_voice/wav/output_hurt.wav')
-    elif trigger == 14:
+    elif trigger == 13:
         perform_action("surprised", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/output_wrong.wav')
-    elif trigger == 15:
+    elif trigger == 14:
         perform_action("normal", "tilt", "", 'package://kxr_controller/resources/pooh_voice/wav/output_sleepy.wav')
-    elif trigger == 16:
+    elif trigger == 15:
         perform_action("happy", "", "right_hand_up", 'package://kxr_controller/resources/pooh_voice/wav/output_ok.wav')
-    elif trigger == 17:
+    elif trigger == 16:
         perform_action("happy", "nod", "", 'package://kxr_controller/resources/pooh_voice/wav/output_nod.wav')
-    elif trigger == 18:
+    elif trigger == 17:
         perform_action("normal", "nod", "", 'package://kxr_controller/resources/pooh_voice/wav/output_nod2.wav')
-    elif trigger == 19:
+    elif trigger == 18:
         perform_action("normal", "nod", "", 'package://kxr_controller/resources/pooh_voice/wav/output_nod3.wav')
-    elif trigger == 20:
+    elif trigger == 19:
         perform_action("normal", "disagree", "", 'package://kxr_controller/resources/pooh_voice/wav/output_disagree.wav')   
-    elif trigger == 21:                                                                                                                                                                                   
-        perform_action("sad", "tilt", "", 'package://kxr_controller/resources/pooh_voice/wav/output_dontknow.wav')    
+    elif trigger == 20:
+        perform_action("sad", "tilt", "", 'package://kxr_controller/resources/pooh_voice/wav/output_dontknow.wav')
+    elif trigger == 21:
+        perform_action("happy", "tilt", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/output_honey.wav')  
     elif trigger == 22:
         ret = random.randient(0,1)
         if ret == 0:
