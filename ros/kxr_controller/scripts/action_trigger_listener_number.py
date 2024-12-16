@@ -172,9 +172,9 @@ def action_callback(msg):
     elif trigger == 23:                                                                                                                                                                                   
         ret = random.randint(0,1)                                                                                                                                                                        
         if ret == 0:                                                                                                                                                                                      
-            perform_action("happy", "", "aiko", 'package://kxr_controller/resources/pooh_voice/wav/output_aiko_rock.wav')                     
+            perform_action("happy", "", "aiko", 'package://kxr_controller/resources/pooh_voice/wav/output_aiko_rock2.wav')                     
         elif ret == 1:                                                                                                                                                                                      
-            perform_action("happy", "", "aiko", 'package://kxr_controller/resources/pooh_voice/wav/output_aiko_paper.wav')      
+            perform_action("happy", "", "aiko", 'package://kxr_controller/resources/pooh_voice/wav/output_aiko_paper2.wav')      
     elif trigger == 24:                                                                                                                                                                                   
         perform_action("sad", "", "left_hand_chin", 'package://kxr_controller/resources/pooh_voice/wav/output_lose.wav')
     elif trigger == 25:

@@ -41,6 +41,9 @@ ri.send_stretch(10)
 rospy.sleep(1.0)
 ri.angle_vector(robot_model.init_pose())
 rospy.loginfo('init_pose')
+#rospy.sleep(1.0)
+ri.servo_off(['rarm_shoulder_p', 'larm_shoulder_p'])
+rospy.loginfo('shoulder_p servo off')
 
 # nod動作
 def nod(send_time=1):
@@ -145,6 +148,7 @@ def init_and_servo_off_double_arm(joint_list, send_time=1):
     ri.angle_vector(robot_model.init_pose(), send_time,
                     controller_type='rarm_controller')
     ri.wait_interpolation()
+    #rospy.sleep(1.0)
     ri.servo_off(joint_list)
     rospy.loginfo(f"{joint_list} servo_off")
 
@@ -247,7 +251,7 @@ def init_pose(send_time=1):
     
 def janken(send_time=0.4):
     controller_type='larm_controller'
-    rospy.sleep(1.0)
+    rospy.sleep(0.5)
     servo_on_before_action(['larm_shoulder_p'])
 
     ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.937971,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
