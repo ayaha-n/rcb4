@@ -39,7 +39,7 @@ class Arms(object):
     START_SHAKE = "start_shake"
     JANKEN = "janken"
     AIKO = "aiko"
-    INIT_POSE = "init_pose"
+    DO_SECURE_POSE = "do_secure_pose"
     
 action_motion_pair = {
     (0, 1, 1): (Eyebrows.HAPPY, Necks.EMPTY, Arms.RIGHT_HAND_UP),
@@ -180,7 +180,7 @@ def action_callback(msg):
     elif trigger == 25:
         perform_action("happy", "", "banzai", 'package://kxr_controller/resources/pooh_voice/wav/output_yeah.wav')
     elif trigger == 26:                                                       
-        perform_action("normal", "", "init_pose", 'package://kxr_controller/resources/pooh_voice/wav/silent_3sec.wav') 
+        perform_action("normal", "", "do_secure_pose", 'package://kxr_controller/resources/pooh_voice/wav/silent_3sec.wav') 
     elif trigger == 27:
         perform_action("happy", "", "banzai", 'package://kxr_controller/resources/pooh_voice/wav/silent_3sec.wav')
     elif trigger == 28:                                                                                                                                                                                   
@@ -194,7 +194,7 @@ def action_callback(msg):
         elif ret == 3:
             perform_action("happy", "tilt", "", 'package://kxr_controller/resources/pooh_voice/wav/output_during_shake3.wav')        
     elif trigger == 30:                                                                                                                                                                                   
-        perform_action("happy", "", "init_pose", 'package://kxr_controller/resources/pooh_voice/wav/output_end_shake.wav')   
+        perform_action("happy", "", "do_secure_pose", 'package://kxr_controller/resources/pooh_voice/wav/output_end_shake.wav')   
 
     elif action in action_motion_pair:
         perform_action(*action_motion_pair.get(action), sound_data)

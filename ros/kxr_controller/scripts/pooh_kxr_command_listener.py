@@ -40,10 +40,19 @@ rospy.sleep(1.0)
 ri.send_stretch(10)
 rospy.sleep(1.0)
 ri.angle_vector(robot_model.init_pose())
+ri.wait_interpolation()
 rospy.loginfo('init_pose')
 #rospy.sleep(1.0)
 ri.servo_off(['rarm_shoulder_p', 'larm_shoulder_p'])
 rospy.loginfo('shoulder_p servo off')
+#安定な姿勢を取得
+ri.servo_on()
+secure_pose=ri.angle_vector()
+rospy.loginfo("servo_on and checked secure pose")
+ri.servo_off(['rarm_shoulder_p', 'larm_shoulder_p'])
+rospy.loginfo('shoulder_p servo off')
+
+
 
 # nod動作
 def nod(send_time=1):
@@ -142,7 +151,7 @@ def init_and_servo_off(joint_list, controller_type, send_time=1):
     ri.servo_off(joint_list)
     rospy.loginfo(f"{joint_list} servo_off")
 
-def init_and_servo_off_double_arm(joint_list, send_time=1):
+def init_and_servo_off(joint_list, send_time=1):
     ri.angle_vector(robot_model.init_pose(), send_time,
                     controller_type='larm_controller')
     ri.angle_vector(robot_model.init_pose(), send_time,
@@ -152,6 +161,12 @@ def init_and_servo_off_double_arm(joint_list, send_time=1):
     ri.servo_off(joint_list)
     rospy.loginfo(f"{joint_list} servo_off")
 
+def secure_pose_and_arm_servo_off(send_time=1):
+    ri.angle_vector(secure_pose, send_time)
+    ri.wait_interpolation()
+    #rospy.sleep(1.0)                                                                                
+    ri.servo_off(['rarm_shoulder_p', 'larm_shoulder_p'])
+    rospy.loginfo("arm shoulder_p servo_off")
 
 
 
@@ -174,7 +189,7 @@ def right_hand_up(send_time=1):
     #ri.wait_interpolation()
     #ri.servo_off(['rarm_shoulder_p'])
     #rospy.loginfo("rarm_joint0 servo_off")
-    init_and_servo_off(['rarm_shoulder_p'], controller_type, send_time)	
+    secure_pose_and_arm_servo_off(send_time)	
     
 def left_hand_chin():
     global speak_flag
@@ -191,7 +206,7 @@ def left_hand_chin():
         rate.sleep()
     rospy.loginfo("while end")
 
-    init_and_servo_off(['larm_shoulder_p'], controller_type, 3)
+    secure_pose_and_arm_servo_off(3)
 
 
 def right_hand_mouth():
@@ -209,7 +224,7 @@ def right_hand_mouth():
         rate.sleep()
     rospy.loginfo("while end")
 
-    init_and_servo_off(['rarm_shoulder_p'], controller_type, 3)
+    secure_pose_and_arm_servo_off(3)
 
     
 def banzai(send_time=1):
@@ -220,7 +235,7 @@ def banzai(send_time=1):
     ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.31 ,  0.49 ,-1.00 ,  1.31 , -0.49 ,  1.00 ], send_time, controller_type='larm_controller')
     ri.wait_interpolation()
     rospy.sleep(2.0)
-    init_and_servo_off_double_arm(['rarm_shoulder_p', 'larm_shoulder_p'], send_time)
+    secure_pose_and_arm_servo_off(send_time)
 
 def left_hand_up(send_time=1):
     #ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.83 ,  0.6114327 ,-1.1828095 ,  1.3094553 , -0.4948007 ,  0.9960814 ], send_time, controller_type='larm_controller')
@@ -230,7 +245,7 @@ def left_hand_up(send_time=1):
     ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.31 ,  0.49 ,-1.00 ,  1.31 , -0.49 ,  1.00 ], send_time, controller_type=controller_type)
     ri.wait_interpolation()
     rospy.sleep(2.0)
-    init_and_servo_off(['larm_shoulder_p'], controller_type, send_time)
+    secure_pose_and_arm_servo_off(send_time)
 
     
 def start_shake(send_time=1):
@@ -239,13 +254,13 @@ def start_shake(send_time=1):
 
     ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  6.6680324e-01,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type) 
     ri.wait_interpolation()
-    ri.servo_off(['larm_shoulder_p'])    
+    #ri.servo_off(['larm_shoulder_p'])    
 
     
-def init_pose(send_time=1):
-    controller_type = 'larm_controller'
-    servo_on_before_action(['larm_shoulder_p'])
-    init_and_servo_off(['larm_shoulder_p'], controller_type, send_time)
+def do_secure_pose(send_time=1):
+    #controller_type = 'larm_controller'
+    servo_on_before_action(['larm_shoulder_p', 'rarm_shoulder_p'])
+    secure_pose_and_arm_servo_off(send_time)
 
 
     
@@ -262,7 +277,7 @@ def janken(send_time=0.4):
         ri.wait_interpolation()
         ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.937971,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
         ri.wait_interpolation()
-    ri.servo_off(['larm_shoulder_p'])
+    #ri.servo_off(['larm_shoulder_p'])
 
     #ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)  
     #ri.wait_interpolation()
@@ -276,7 +291,7 @@ def aiko(send_time=0.5):
     ri.wait_interpolation()
     ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.937971,  0.4,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
     ri.wait_interpolation()
-    ri.servo_off(['larm_shoulder_p'])
+    #ri.servo_off(['larm_shoulder_p'])
 
 
 
@@ -297,7 +312,7 @@ def onegai():
         rate.sleep()
     rospy.loginfo("while end")
 
-    init_and_servo_off_double_arm(['rarm_shoulder_p', 'larm_shoulder_p'], 2)
+    secure_pose_and_arm_servo_off(2)
 
     
 def left_hand_point(send_time=1):
@@ -306,7 +321,7 @@ def left_hand_point(send_time=1):
 
     ri.angle_vector([ 1.7555017e-07,  1.7555017e-07,  2.3563702e-03, -1.3665912e-01,-5.5606174e-01,  1.9379719e-01,  6.6680324e-01,  1.1892895e+00,-3.0335987e-01], send_time, controller_type=controller_type)
     ri.wait_interpolation()
-    init_and_servo_off(['larm_shoulder_p'], controller_type, send_time)
+    secure_pose_and_arm_servo_off(send_time)
 
 
 def right_hand_bye(send_time=0.5):
@@ -323,7 +338,7 @@ def right_hand_bye(send_time=0.5):
     ri.wait_interpolation()
     ri.angle_vector([ 1.7555017e-07,  2.4504441e-01,  8.2468567e-03, -1.3, 0.09, -1.31,  1.3783756e-01,  5.3016134e-03,5.3016134e-03], send_time, controller_type=controller_type)
     ri.wait_interpolation()
-    init_and_servo_off(['rarm_shoulder_p'], controller_type, 2)
+    secure_pose_and_arm_servo_off(2)
 
 
 
@@ -342,7 +357,7 @@ def left_hand_bye(send_time=0.5):
     ri.angle_vector([-0.01119175,  0.07245316, -0.01943843, -1.7 ,  0.6114327 ,-1.1828095 ,  1.3 , -0.09 ,  1.31], send_time, controller_type=controller_type)
     ri.wait_interpolation()
 
-    init_and_servo_off(['larm_shoulder_p'], controller_type, 2)
+    secure_pose_and_arm_servo_off(2)
 
     
 
@@ -413,9 +428,9 @@ def arm_motion_callback(msg):
     elif command == 'start_shake':                                                                                                                                                                      
         rospy.loginfo('Executing start_shake motion')                                                                                                                                                    
         start_shake()
-    elif command == 'init_pose':                                                                                                                                                                      
-        rospy.loginfo('Executing init_pose motion')                                                                                                                                                    
-        init_pose() 
+    elif command == 'do_secure_pose':
+        rospy.loginfo('Executing do_secure_pose motion')                                           
+        do_secure_pose() 
     elif command == '':
         rospy.loginfo('no arm motion')
     else:
