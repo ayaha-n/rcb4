@@ -30,3 +30,13 @@ larm_controller:
   state_publish_rate:  100            # Override default
   action_monitor_rate: 100            # Override default
   stop_trajectory_duration: 0        # Override default
+
+nose_controller:
+  type: position_controllers/JointTrajectoryController                                              
+  joints:                                                                                           
+    - nose_y                                                                                   
+    - nose_p
+
+  state_publish_rate:  100            # Override default                                            
+  action_monitor_rate: 100            # Override default                                            
+  stop_trajectory_duration: 0        # Override default       

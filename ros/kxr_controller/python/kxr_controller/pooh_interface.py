@@ -48,6 +48,16 @@ class PoohROSRobotInterface(KXRROSRobotInterface):
             action_type=control_msgs.msg.FollowJointTrajectoryAction,
             joint_names=['head_neck_y', 'head_neck_p', 'head_neck_r'])
 
+    @property
+    def nose_controller(self):
+        return dict(
+            controller_type='nose_controller',
+            controller_action='nose_controller/follow_joint_trajectory',
+            controller_state='nose_controller/state',
+            action_type=control_msgs.msg.FollowJointTrajectoryAction,
+            joint_names=['nose_y', 'nose_p'])
+
+
     def default_controller(self):
         """Overriding default_controller.
 
@@ -59,4 +69,5 @@ class PoohROSRobotInterface(KXRROSRobotInterface):
             self.larm_controller,
             self.rarm_controller,
             self.head_controller,
+            self.nose_controller,
         ]

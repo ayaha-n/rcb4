@@ -4,7 +4,7 @@
   <include file="$(find riberry_startup)/launch/sound_play.launch" />
 
   <!-- 体のサーボ用の基板との通信とかに必要 -->
-  <include file="$(find pooh_kxr_fullbody)/launch/pooh_controller.launch" />
+  <include file="$(find pooh_body)/launch/pooh_controller.launch" />
 
   <!-- serialでarduino nano everyと通信 -->
   <node name="joint_state_to_arduino"
@@ -14,6 +14,7 @@
     - head_controller
     - rarm_controller
     - larm_controller
+    - nose_controller
   </rosparam>
   <rosparam file="$(find kxr_controller)/config/pooh_controllers.yaml" />
 
